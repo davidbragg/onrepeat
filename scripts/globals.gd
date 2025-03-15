@@ -1,10 +1,19 @@
 extends Node
 
+# Date Values
 var today: Dictionary
 var end_of_month: int
+
+# Resources
 var font: Resource = load("res://assets/Stacked pixel.ttf")
 
+# App Data
+var user_dir: String = "res://user-data/"
+var all_habits_data: Dictionary
+
+
 func _init() -> void:
+	# get today's date and calculate the last day of the month
 	today = Time.get_date_dict_from_system()
 	var eom: Dictionary = today.duplicate()
 

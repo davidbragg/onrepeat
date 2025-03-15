@@ -2,14 +2,12 @@
 
 This is meant to be a low touch habit tracker in the same vein as simple paper based habit trackers. Development is currently in progress and key functionality is still missing.
 
-Creates a basic checkbox grid for the days of the current month, against the names of the habits being tracked. On performing the desired habit, check of the current day.
+Creates a basic checkbox grid for the days of the current month, against the names of the habits being tracked. On performing the desired habit, check off the habit for the current day.
 
 ![In progress screenshot](screenshots/in_progress.png)
 
 ### Planned
 
-* update saved data structures
-* update loading to match data updates
 * saving data
 * generate a new month on first of the month
 * create a new habit
