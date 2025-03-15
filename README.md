@@ -1,9 +1,25 @@
 # onrepeat
 
-This is meant to be a low touch habit tracker the same vein as simple paper based habit trackers.
+This is meant to be a low touch habit tracker in the same vein as simple paper based habit trackers. Development is currently in progress and key functionality is still missing.
 
-Still getting the basic premise of the application out of my head and ensuring I can do some basic things with gdscript around figuring out dates and dynamically populating the UI based on the number of habits being tracked and the number of days in the current month.
+Creates a basic checkbox grid for the days of the current month, against the names of the habits being tracked. On performing the desired habit, check of the current day.
 
-Everything is hardcoded at the moment. I still need to figure out how I'm going to save and load data, what I want the thing to look like, what restraints I'm going to put on the application. It's meant to be very minimal. It shouldn't be the type of app you spend a lot of time in. You open it up and either figure out what you're going to do or check off something you have done.
+![In progress screenshot](screenshots/in_progress.png)
 
-I would like to be able to do some things around tracking streaks and modifying the UI based on streaks. We'll see how things progress as I work on this.
+### Planned
+
+* update saved data structures
+* update loading to match data updates
+* saving data
+* generate a new month on first of the month
+* create a new habit
+* modify an existing habit (rename, disable, delete)
+* default theme
+
+### Future Considerations
+
+* current streak tracking per habit
+* all time streak tracking per habit
+* view previous months
+* restore a disabled habit
+* custom theming

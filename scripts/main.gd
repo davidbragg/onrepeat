@@ -17,7 +17,11 @@ func _ready() -> void:
 	var habits = load_habit()
 	for habit in habits:
 		var row_rect = ColorRect.new()
-		row_rect.color = Color.DARK_SLATE_GRAY
+		if double_row:
+			row_rect.color = Color.DARK_SLATE_GRAY
+		else:
+			row_rect.color = Color.DIM_GRAY
+		double_row = !double_row
 		row_rect.custom_minimum_size = rect_min_size
 		var habit_hbox = HabitHBox.new(habit["title"])
 		habit_hbox.populate_habit(habit)
