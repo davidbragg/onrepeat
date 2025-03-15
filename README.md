@@ -8,7 +8,6 @@ Creates a basic checkbox grid for the days of the current month, against the nam
 
 ### Planned
 
-* saving data
 * generate a new month on first of the month
 * create a new habit
 * modify an existing habit (rename, disable, delete)
