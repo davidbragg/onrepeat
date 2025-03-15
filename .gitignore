@@ -2,5 +2,6 @@
 .godot/
 /android/
 
+bin/
 .vscode/
 user-data/*.json

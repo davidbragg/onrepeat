@@ -15,7 +15,6 @@ func _init(habit_data: Dictionary) -> void:
 	_year_string = str(Globals.today["year"])
 	_month_string = str(Globals.today["month"])
 
-
 func _ready() -> void:
 	SignalBus.box_toggle.connect(get_checks)
 	# connect this to saving habit data
@@ -25,6 +24,14 @@ func populate_habit() -> void:
 	habit_label.populate()
 	add_child(habit_label)
 
+	# create new if missing habit data for the current month
+	if !_habit_data[_year_string].has(_month_string):
+		var this_month: Array[int]
+		for i in Globals.end_of_month:
+			this_month.push_back(0)
+		_habit_data[_year_string][_month_string] = this_month
+		DataManager.save_habit_data(_habit_data)
+
 	for i in Globals.end_of_month:
 		checkboxes.push_back(HabitCheckBox.new())
 		checkboxes[i].custom_minimum_size = cbox_min_size
@@ -32,7 +39,6 @@ func populate_habit() -> void:
 		if i >= _current_day:
 			checkboxes[i].disabled = true
 		add_child(checkboxes[i])
-
 
 func populate_header() -> void:
 	var habit_label = HabitLabel.new(_habit_data["title"])

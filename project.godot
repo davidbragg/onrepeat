@@ -21,6 +21,11 @@ SignalBus="*res://scripts/signal_bus.gd"
 Globals="*res://scripts/globals.gd"
 DataManager="*res://scripts/data_manager.gd"
 
+[display]
+
+window/size/resizable=false
+window/size/borderless=true
+
 [rendering]
 
 renderer/rendering_method="mobile"
