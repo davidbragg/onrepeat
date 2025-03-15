@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5x2sd74irmko"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gg8qd"]
+
+[node name="CheckBox" type="CheckBox"]
+material = SubResource("ShaderMaterial_gg8qd")

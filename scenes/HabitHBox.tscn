@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c8x5t5rdpbnhp"]
 
-[ext_resource type="Script" uid="uid://dxojrs8c8nrl1" path="res://scripts/habit_h_box.gd" id="1_gob3j"]
+[ext_resource type="Script" uid="uid://dxojrs8c8nrl1" path="res://scripts/habit_hbox.gd" id="1_gob3j"]
 
 [node name="HabitHBox" type="HBoxContainer"]
 script = ExtResource("1_gob3j")
