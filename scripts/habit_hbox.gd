@@ -46,10 +46,7 @@ func populate_header() -> void:
 			day_label.self_modulate = Color(55,0,0,1)
 		add_child(day_label)
 
-# DEBUG
-# this is just a debug method to output an array of checkbox
-# states while I'm continuing to test - it will be updated
-# to run the habit save behaviour when that is implemented
+# Convert checked boxes to an array of true/false bits and save
 func get_checks(parent):
 	if self == parent:
 		var this_month: Array
@@ -58,4 +55,6 @@ func get_checks(parent):
 				this_month.push_back(1)
 			else:
 				this_month.push_back(0)
-		print(this_month)
+
+		_habit_data[_year_string][_month_string] = this_month
+		DataManager.save_habit_data(_habit_data)

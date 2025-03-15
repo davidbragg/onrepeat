@@ -2,7 +2,6 @@ extends Control
 
 var rect_min_size: Vector2 = Vector2(1132, 20)
 var double_row: bool = false
-var data_manager: Node = DataManager.new()
 
 func _ready() -> void:
 	# populate the header
@@ -14,14 +13,12 @@ func _ready() -> void:
 	header_rect.add_child(header_hbox)
 	$VBoxContainer.add_child(header_rect)
 
-	data_manager.load_all_habits()
-	print(Globals.all_habits_data)
+	DataManager.load_all_habits()
 
 	# populate habits
 	for habit in Globals.all_habits_data["active"]:
 		# take the habit name and load the relevant file
-		var habit_data = data_manager.load_habit_data(habit)
-		print(habit_data)
+		var habit_data = DataManager.load_habit_data(habit)
 		var row_rect = ColorRect.new()
 		if double_row:
 			row_rect.color = Color.DARK_SLATE_GRAY
