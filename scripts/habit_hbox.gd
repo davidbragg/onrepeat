@@ -17,7 +17,6 @@ func _init(habit_data: Dictionary) -> void:
 
 func _ready() -> void:
 	SignalBus.box_toggle.connect(get_checks)
-	# connect this to saving habit data
 
 func populate_habit() -> void:
 	var habit_label = HabitLabel.new(_habit_data["title"])

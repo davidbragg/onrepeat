@@ -4,4 +4,3 @@
 
 bin/
 .vscode/
-user-data/*.json

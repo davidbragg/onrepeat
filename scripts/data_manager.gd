@@ -12,6 +12,20 @@ func load_habit_data(file_id: String) -> Dictionary:
 	file.close()
 	return habit_data
 
+func new_habit_data(file_id: String, habit_title: String) -> void:
+	var file_name: String = str(Globals.user_dir, file_id, ".json")
+	var file = FileAccess.open(file_name, FileAccess.WRITE)
+	var save_data: Dictionary = {
+		"title": habit_title,
+		"id": file_id,
+		str(Globals.today["year"]): {}
+	}
+	file.store_string(JSON.stringify(save_data))
+	print(file_name)
+
+	Globals.all_habits_data["active"].push_back(file_id)
+	save_all_habits()
+
 func save_habit_data(habit_data: Dictionary) -> void:
 	var file_name: String = str(Globals.user_dir, habit_data["id"], ".json")
 	var file = FileAccess.open(file_name, FileAccess.WRITE)
@@ -25,9 +39,9 @@ func load_all_habits() -> void:
 		file.close()
 	else:
 		Globals.all_habits_data = { "active": [], "inactive": [] }
-		save_all_habits(Globals.all_habits_data)
+		save_all_habits()
 
-func save_all_habits(save_data: Dictionary) -> void:
+func save_all_habits() -> void:
 	var file = FileAccess.open(all_habits, FileAccess.WRITE)
-	file.store_string(JSON.stringify(save_data))
+	file.store_string(JSON.stringify(Globals.all_habits_data))
 	file.close()

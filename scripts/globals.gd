@@ -4,13 +4,27 @@ extends Node
 var today: Dictionary
 var end_of_month: int
 var header_date: String
-var month_name: Dictionary = { 1: "january", 2: "february", 3: "march", 4: "april", 5: "may", 6: "june", 7: "july", 8: "august", 9: "september", 10: "october", 11: "november", 12: "december" }
+var month_name: Dictionary = {
+	1: "jan",
+	2: "feb",
+	3: "mar",
+	4: "apr",
+	5: "may",
+	6: "jun",
+	7: "jul",
+	8: "aug",
+	9: "sep",
+	10: "oct",
+	11: "nov",
+	12: "dec"
+}
 
 # Resources
 var font: Resource = load("res://assets/Stacked pixel.ttf")
+var font_size: int = 20
 
 # App Data
-var user_dir: String = "res://user-data/"
+var user_dir: String = "user://"
 var all_habits_data: Dictionary
 
 
