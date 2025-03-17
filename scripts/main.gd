@@ -9,6 +9,8 @@ var double_row: bool = false
 
 func _ready() -> void:
 	SignalBus.new_habit.connect(new_habit)
+	SignalBus.rename_habit.connect(rename_habit)
+	SignalBus.update_habit.connect(update_habit)
 
 	populate_header()
 
@@ -36,6 +38,18 @@ func new_habit(habit: String) -> void:
 
 	if Globals.all_habits_data["active"].size() >= 6:
 		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = true
+
+func rename_habit(title: String, parent: Object) -> void:
+	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
+	$RenameHabitPopUp.visible = true
+	$RenameHabitPopUp.populate(title, parent)
+
+func update_habit(title: String, parent: Object) -> void:
+	$RenameHabitPopUp.visible = false
+	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
+	if title != "":
+		parent.update_habit_title(title)
+
 
 func populate_habit(habit_id: String) -> void:
 	var habit_data = DataManager.load_habit_data(habit_id)
@@ -70,6 +84,7 @@ func populate_header() -> void:
 func _on_new_button_pressed() -> void:
 	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
 	$NewHabitPopUp.visible = true
+
 
 func button_check() -> void:
 	if Globals.all_habits_data["active"].size() >= 6:

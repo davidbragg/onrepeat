@@ -6,6 +6,7 @@ var _current_day: int
 var _year_string: String
 var _month_string: String
 
+var habit_label: HabitLabel
 var checkboxes: Array[HabitCheckBox]
 var cbox_min_size: Vector2 = Vector2(25, 20)
 
@@ -19,7 +20,7 @@ func _ready() -> void:
 	SignalBus.box_toggle.connect(get_checks)
 
 func populate_habit() -> void:
-	var habit_label = HabitLabel.new(_habit_data["title"])
+	habit_label = HabitLabel.new(_habit_data["title"])
 	habit_label.populate()
 	add_child(habit_label)
 
@@ -39,8 +40,13 @@ func populate_habit() -> void:
 			checkboxes[i].disabled = true
 		add_child(checkboxes[i])
 
+func update_habit_title(title: String) -> void:
+	_habit_data["title"] = title
+	habit_label.text = title
+	DataManager.save_habit_data(_habit_data)
+
 func populate_header() -> void:
-	var habit_label = HabitLabel.new(_habit_data["title"])
+	habit_label = HabitLabel.new(_habit_data["title"])
 	habit_label.populate()
 	add_child(habit_label)
 
