@@ -21,7 +21,6 @@ func new_habit_data(file_id: String, habit_title: String) -> void:
 		str(Globals.today["year"]): {}
 	}
 	file.store_string(JSON.stringify(save_data))
-	print(file_name)
 
 	Globals.all_habits_data["active"].push_back(file_id)
 	save_all_habits()
@@ -45,3 +44,7 @@ func save_all_habits() -> void:
 	var file = FileAccess.open(all_habits, FileAccess.WRITE)
 	file.store_string(JSON.stringify(Globals.all_habits_data))
 	file.close()
+
+func delete_habit_data(id: String) -> void:
+	var file_name: String = str(Globals.user_dir, id, ".json")
+	DirAccess.remove_absolute(file_name)

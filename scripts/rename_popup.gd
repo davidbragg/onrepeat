@@ -5,10 +5,10 @@ var _parent: Object
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_key_pressed(KEY_ESCAPE):
-		SignalBus.update_habit.emit("", _parent)
+		SignalBus.rename_habit.emit("", _parent)
 
 func _on_cancel_button_pressed() -> void:
-	SignalBus.update_habit.emit("", _parent)
+	SignalBus.rename_habit.emit("", _parent)
 
 func _on_ok_button_pressed() -> void:
 	submit_habit()
@@ -17,7 +17,7 @@ func _on_habit_title_text_submitted(_new_text: String) -> void:
 	submit_habit()
 
 func submit_habit() -> void:
-	SignalBus.update_habit.emit(%HabitTitle.text, _parent)
+	SignalBus.rename_habit.emit(%HabitTitle.text, _parent)
 
 
 func _on_visibility_changed() -> void:

@@ -21,6 +21,6 @@ func populate() -> void:
 func _gui_input(_event: InputEvent) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		_label_text = text
-		SignalBus.rename_habit.emit(_label_text, self.get_parent())
+		SignalBus.pop_rename_habit.emit(_label_text, self.get_parent())
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		SignalBus.remove_habit.emit(text, self.get_parent())
+		SignalBus.pop_manage_habit.emit(text, self.get_parent())

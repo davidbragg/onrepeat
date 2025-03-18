@@ -32,6 +32,8 @@ window/size/resizable=false
 [global_group]
 
 TextObjects=""
+RowOne=""
+RowTwo=""
 
 [rendering]
 

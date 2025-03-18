@@ -4,15 +4,18 @@ const uuid_util = preload('res://addons/uuid/uuid.gd')
 
 var rect_min_size: Vector2 = Vector2(1132, 20)
 var double_row: bool = false
+var habit_rows: Array[ColorRect]
 
 @onready var new_button: Button = $ParentBox/HabitsHBox/ControlsHBox/NewButton
 
 func _ready() -> void:
+	SignalBus.pop_rename_habit.connect(pop_rename_habit)
+	SignalBus.pop_manage_habit.connect(pop_remove_habit)
+
 	SignalBus.new_habit.connect(new_habit)
 	SignalBus.rename_habit.connect(rename_habit)
-	SignalBus.update_habit.connect(update_habit)
-	SignalBus.remove_habit.connect(remove_habit)
 	SignalBus.disable_habit.connect(disable_habit)
+	SignalBus.delete_habit.connect(delete_habit)
 
 	populate_header()
 
@@ -20,66 +23,67 @@ func _ready() -> void:
 	for habit in Globals.all_habits_data["active"]:
 		populate_habit(habit)
 
-	set_font()
-	button_check()
+	apply_font()
+	new_button_check()
 
-func set_font() -> void:
-	var text_objects = get_tree().get_nodes_in_group("TextObjects")
-	for obj in text_objects:
-		obj.add_theme_font_override("font", Globals.font)
-		obj.add_theme_font_size_override("font_size", 20)
+# Manage Habits
+func rename_habit(title: String, parent: Object) -> void:
+	hide_pop_up($RenameHabitPopUp)
+	if title != "":
+		parent.update_habit_title(title)
 
 func new_habit(habit: String) -> void:
-	$NewHabitPopUp.visible = false
-	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
+	hide_pop_up($NewHabitPopUp)
 
 	if habit != "":
 		var new_id = uuid_util.v4()
 		DataManager.new_habit_data(new_id, habit)
 		populate_habit(new_id)
 
-	if Globals.all_habits_data["active"].size() >= 6:
-		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = true
-		$ParentBox/HabitsHBox/ControlsHBox/NewButton.visible = false
+	new_button_check()
+	# apply_theme()
 
-func rename_habit(title: String, parent: Object) -> void:
-	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
-	$RenameHabitPopUp.visible = true
-	$RenameHabitPopUp.populate(title, parent)
+func disable_habit(row: Object) -> void:
+	hide_pop_up($RemoveHabitPopUp)
 
-func update_habit(title: String, parent: Object) -> void:
-	$RenameHabitPopUp.visible = false
-	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
-	if title != "":
-		parent.update_habit_title(title)
+	if row == null:
+		return
 
+	var index = habit_rows.find(row)
+	var hbox = habit_rows[index].get_child(0)
+	var habit_id = hbox._habit_data["id"]
+	Globals.all_habits_data["inactive"].push_back(habit_id)
+	Globals.all_habits_data["active"].erase(habit_id)
+	DataManager.save_all_habits()
+	habit_rows[index].queue_free()
 
-func remove_habit(title:String, parent: Object) -> void:
-	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
-	$RemoveHabitPopUp.visible = true
-	$RemoveHabitPopUp.populate(title, parent)
+	new_button_check()
+	# apply_theme()
 
+func delete_habit(row: Object) -> void:
+	hide_pop_up($RemoveHabitPopUp)
 
-func disable_habit(parent: Object) -> void:
-	$RemoveHabitPopUp.visible = false
-	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
-	if parent != null:
-		var habit_id = parent._habit_data["id"]
-		Globals.all_habits_data["inactive"].push_back(habit_id)
-		Globals.all_habits_data["active"].erase(habit_id)
-		DataManager.save_all_habits()
-		parent.get_parent().queue_free()
-		# TODO: recolour habit rows
-
-	if Globals.all_habits_data["active"].size() < 6:
-		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = false
-		$ParentBox/HabitsHBox/ControlsHBox/NewButton.visible = true
+	var index = habit_rows.find(row)
+	var hbox = habit_rows[index].get_child(0)
+	var habit_id = hbox._habit_data["id"]
+	Globals.all_habits_data["active"].erase(habit_id)
+	DataManager.save_all_habits()
+	DataManager.delete_habit_data(habit_id)
+	habit_rows[index].queue_free()
+	habit_rows.remove_at(index)
+	new_button_check()
+	# apply_theme()
 
 
+
+# Populate UI
 func populate_habit(habit_id: String) -> void:
 	var habit_data = DataManager.load_habit_data(habit_id)
 
 	var row_rect = ColorRect.new()
+	habit_rows.push_back(row_rect)
+
+	# to be superseded by apply_theme()
 	if double_row:
 		row_rect.color = Color.DARK_SLATE_GRAY
 	else:
@@ -92,8 +96,9 @@ func populate_habit(habit_id: String) -> void:
 
 	row_rect.add_child(habit_hbox)
 	%HabitsHBox.add_child(row_rect)
-	set_font()
+	apply_font()
 
+	# apply_theme()
 
 func populate_header() -> void:
 	var header_rect = ColorRect.new()
@@ -106,14 +111,42 @@ func populate_header() -> void:
 	%HabitsHBox.add_child(header_rect)
 
 
+# Manage UI
+func apply_font() -> void:
+	var text_objects = get_tree().get_nodes_in_group("TextObjects")
+	for obj in text_objects:
+		obj.add_theme_font_override("font", Globals.font)
+		obj.add_theme_font_size_override("font_size", 20)
+
+func new_button_check() -> void:
+	if Globals.all_habits_data["active"].size() < 6:
+		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = false
+		$ParentBox/HabitsHBox/ControlsHBox/NewButton.visible = true
+	else:
+		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = true
+		$ParentBox/HabitsHBox/ControlsHBox/NewButton.visible = false
+
+# func apply_theme() -> void:
+	# iterate through the habit_rows
+	# reset current group
+	# get_groups() -> remove_from_group() -> add_to_group()
+	# alternate assigning to RowOne/RowTwo
+	# apply colours to groups
+
+func pop_rename_habit(title: String, parent: Object) -> void:
+	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
+	$RenameHabitPopUp.visible = true
+	$RenameHabitPopUp.populate(title, parent)
+
+func pop_remove_habit(title:String, parent: Object) -> void:
+	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
+	$RemoveHabitPopUp.visible = true
+	$RemoveHabitPopUp.populate(title, parent)
+
 func _on_new_button_pressed() -> void:
 	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
 	$NewHabitPopUp.visible = true
 
-
-
-
-func button_check() -> void:
-	if Globals.all_habits_data["active"].size() >= 6:
-		new_button.disabled = true
-		new_button.visible = false
+func hide_pop_up(pop_up: Object) -> void:
+	pop_up.visible = false
+	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
