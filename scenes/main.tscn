@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://o0rqyht7l6q0"]
+[gd_scene load_steps=5 format=3 uid="uid://o0rqyht7l6q0"]
 
 [ext_resource type="Script" uid="uid://dfa2kfceo2qpd" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://de35wwlxe3o58" path="res://scenes/HabitPopup.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://7cnim0nowvu1" path="res://scenes/RenamePopup.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://bv047ljwq6ve0" path="res://scenes/RemovePopup.tscn" id="4_jyhfs"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -55,5 +56,13 @@ offset_left = 401.0
 offset_top = 54.0
 offset_right = 593.0
 offset_bottom = 164.0
+
+[node name="RemoveHabitPopUp" parent="." instance=ExtResource("4_jyhfs")]
+visible = false
+layout_mode = 0
+offset_left = 427.0
+offset_top = 81.0
+offset_right = 652.0
+offset_bottom = 241.0
 
 [connection signal="pressed" from="ParentBox/HabitsHBox/ControlsHBox/NewButton" to="." method="_on_new_button_pressed"]

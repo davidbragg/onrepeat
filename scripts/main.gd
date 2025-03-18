@@ -11,6 +11,8 @@ func _ready() -> void:
 	SignalBus.new_habit.connect(new_habit)
 	SignalBus.rename_habit.connect(rename_habit)
 	SignalBus.update_habit.connect(update_habit)
+	SignalBus.remove_habit.connect(remove_habit)
+	SignalBus.disable_habit.connect(disable_habit)
 
 	populate_header()
 
@@ -38,6 +40,7 @@ func new_habit(habit: String) -> void:
 
 	if Globals.all_habits_data["active"].size() >= 6:
 		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = true
+		$ParentBox/HabitsHBox/ControlsHBox/NewButton.visible = false
 
 func rename_habit(title: String, parent: Object) -> void:
 	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
@@ -49,6 +52,28 @@ func update_habit(title: String, parent: Object) -> void:
 	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
 	if title != "":
 		parent.update_habit_title(title)
+
+
+func remove_habit(title:String, parent: Object) -> void:
+	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
+	$RemoveHabitPopUp.visible = true
+	$RemoveHabitPopUp.populate(title, parent)
+
+
+func disable_habit(parent: Object) -> void:
+	$RemoveHabitPopUp.visible = false
+	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
+	if parent != null:
+		var habit_id = parent._habit_data["id"]
+		Globals.all_habits_data["inactive"].push_back(habit_id)
+		Globals.all_habits_data["active"].erase(habit_id)
+		DataManager.save_all_habits()
+		parent.get_parent().queue_free()
+		# TODO: recolour habit rows
+
+	if Globals.all_habits_data["active"].size() < 6:
+		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = false
+		$ParentBox/HabitsHBox/ControlsHBox/NewButton.visible = true
 
 
 func populate_habit(habit_id: String) -> void:
@@ -84,6 +109,8 @@ func populate_header() -> void:
 func _on_new_button_pressed() -> void:
 	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
 	$NewHabitPopUp.visible = true
+
+
 
 
 func button_check() -> void:
