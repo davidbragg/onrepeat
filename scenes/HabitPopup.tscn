@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://d1t63icq8mufg" path="res://scripts/habit_popup.gd" id="1_1v4xp"]
 
-[node name="PopUpColorRect" type="ColorRect"]
+[node name="PopUpColorRect" type="ColorRect" groups=["Background"]]
 offset_right = 192.0
 offset_bottom = 110.0
-color = Color(0.184161, 0.305806, 0.305806, 1)
+color = Color(0.380392, 0.368627, 0.294118, 1)
 script = ExtResource("1_1v4xp")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

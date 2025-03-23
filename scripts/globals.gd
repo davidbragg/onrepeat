@@ -27,6 +27,24 @@ var font_size: int = 20
 var user_dir: String = "user://"
 var all_habits_data: Dictionary
 
+# Theme Colours
+var almost_black = Color.hex(0x191919ff)
+var greyish_brown = Color.hex(0x615e4bff)
+var cerise = Color.hex(0xf3005fff)
+var darkish_pink = Color.hex(0xf3488bff)
+var purpley = Color.hex(0x9c64feff)
+var greyish = Color.hex(0xc4c4b5ff)
+var egg_shell = Color.hex(0xf0ebafff)
+var twilight = Color.hex(0x3a255fff)
+
+var background_color: Color = almost_black
+var header_color: Color = greyish_brown
+var header_text: Color = darkish_pink
+var odd_row_color: Color = greyish
+var odd_row_text: Color = twilight
+var even_row_color: Color = greyish_brown
+var even_row_text: Color = egg_shell
+
 
 func _init() -> void:
 	# get today's date and calculate the last day of the month

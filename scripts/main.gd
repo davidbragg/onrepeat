@@ -24,7 +24,9 @@ func _ready() -> void:
 		populate_habit(habit)
 
 	apply_font()
+	apply_theme()
 	new_button_check()
+
 
 # Manage Habits
 func rename_habit(title: String, parent: Object) -> void:
@@ -75,7 +77,6 @@ func delete_habit(row: Object) -> void:
 	# apply_theme()
 
 
-
 # Populate UI
 func populate_habit(habit_id: String) -> void:
 	var habit_data = DataManager.load_habit_data(habit_id)
@@ -85,9 +86,9 @@ func populate_habit(habit_id: String) -> void:
 
 	# to be superseded by apply_theme()
 	if double_row:
-		row_rect.color = Color.DARK_SLATE_GRAY
+		row_rect.add_to_group("EvenRow")
 	else:
-		row_rect.color = Color.DIM_GRAY
+		row_rect.add_to_group("OddRow")
 	double_row = !double_row
 	row_rect.custom_minimum_size = rect_min_size
 
@@ -102,7 +103,7 @@ func populate_habit(habit_id: String) -> void:
 
 func populate_header() -> void:
 	var header_rect = ColorRect.new()
-	header_rect.color = Color.NAVY_BLUE
+	header_rect.add_to_group("Header")
 	header_rect.custom_minimum_size = rect_min_size
 
 	var header_hbox = HabitHBox.new({"title": Globals.header_date})
@@ -126,12 +127,30 @@ func new_button_check() -> void:
 		$ParentBox/HabitsHBox/ControlsHBox/NewButton.disabled = true
 		$ParentBox/HabitsHBox/ControlsHBox/NewButton.visible = false
 
-# func apply_theme() -> void:
-	# iterate through the habit_rows
-	# reset current group
-	# get_groups() -> remove_from_group() -> add_to_group()
-	# alternate assigning to RowOne/RowTwo
-	# apply colours to groups
+func apply_theme() -> void:
+	var background = get_tree().get_nodes_in_group("Background")
+	var header = get_tree().get_nodes_in_group("Header")
+
+	# assign background colors
+	for n in background:
+		n.color = Globals.background_color
+
+	# header colours
+	header[0].color = Globals.header_color
+	var header_label = header[0].get_children()[0].get_children()[0]
+	header_label.add_theme_color_override("font_color", Globals.header_text)
+
+	for n in habit_rows:
+		if n.is_in_group("OddRow"):
+			n.color = Globals.odd_row_color
+			var habit_label = n.get_children()[0].get_children()[0]
+			habit_label.add_theme_color_override("font_color", Globals.odd_row_text)
+		else:
+			n.color = Globals.even_row_color
+			var habit_label = n.get_children()[0].get_children()[0]
+			habit_label.add_theme_color_override("font_color", Globals.even_row_text)
+
+
 
 func pop_rename_habit(title: String, parent: Object) -> void:
 	$ParentBox.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])

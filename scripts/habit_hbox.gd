@@ -54,7 +54,7 @@ func populate_header() -> void:
 		var day_label = DayLabel.new(str(i + 1))
 		day_label.populate()
 		if i  == _current_day - 1:
-			day_label.self_modulate = Color(55,0,0,1)
+			day_label.add_theme_color_override("font_color", Globals.header_text)
 		add_child(day_label)
 
 # Convert checked boxes to an array of true/false bits and save

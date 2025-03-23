@@ -33,9 +33,13 @@ window/size/resizable=false
 [global_group]
 
 TextObjects=""
-RowOne=""
-RowTwo=""
+Background=""
+Header=""
+OddRow=""
+EvenRow=""
+HabitLabel=""
 
 [rendering]
 
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0.0980392, 0.0980392, 0.0980392, 1)

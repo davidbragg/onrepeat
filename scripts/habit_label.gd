@@ -11,6 +11,7 @@ func _init(label_text: String) -> void:
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_STOP
 	add_to_group("TextObjects")
+	add_to_group("HabitLabel")
 
 func populate() -> void:
 	horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT

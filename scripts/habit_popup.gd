@@ -21,4 +21,7 @@ func submit_habit() -> void:
 
 func _on_visibility_changed() -> void:
 	if visible == true:
+		# position the popup in the center of the window
+		# center = window().size / 2
+		# offset by popup size / 2
 		%HabitTitle.grab_focus()

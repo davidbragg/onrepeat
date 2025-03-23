@@ -22,6 +22,8 @@ func submit_habit() -> void:
 
 func _on_visibility_changed() -> void:
 	if visible == true:
+		# center pop up in the app
+		position = Vector2(get_window().size / 2) - (size /2 )
 		%HabitTitle.grab_focus()
 
 func populate(title: String, parent: Object) -> void:

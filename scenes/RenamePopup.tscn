@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bxty2xc6usgsk" path="res://scripts/rename_popup.gd" id="1_s66ey"]
 
-[node name="RenameColorRect" type="ColorRect"]
+[node name="RenameColorRect" type="ColorRect" groups=["Background"]]
 offset_right = 192.0
 offset_bottom = 110.0
 color = Color(0.184161, 0.305806, 0.305806, 1)

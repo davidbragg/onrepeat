@@ -19,3 +19,8 @@ func _on_cancel_button_pressed() -> void:
 func populate(title: String, parent: Object):
 	%HabitLabel.text = title
 	hbox_parent = parent
+
+func _on_visibility_changed() -> void:
+	if visible == true:
+		# center pop up in the app
+		position = Vector2(get_window().size / 2) - (size /2 )
