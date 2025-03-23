@@ -36,6 +36,7 @@ var purpley = Color.hex(0x9c64feff)
 var greyish = Color.hex(0xc4c4b5ff)
 var egg_shell = Color.hex(0xf0ebafff)
 var twilight = Color.hex(0x3a255fff)
+var kiwi = Color.hex(0x97e023ff)
 
 var background_color: Color = almost_black
 var header_color: Color = greyish_brown

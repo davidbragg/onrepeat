@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://7cnim0nowvu1"]
+[gd_scene load_steps=3 format=3 uid="uid://7cnim0nowvu1"]
 
 [ext_resource type="Script" uid="uid://bxty2xc6usgsk" path="res://scripts/rename_popup.gd" id="1_s66ey"]
+[ext_resource type="Theme" uid="uid://bjig4nk5dlsff" path="res://scenes/buttons.tres" id="2_p0yal"]
 
 [node name="RenameColorRect" type="ColorRect" groups=["Background"]]
 offset_right = 192.0
@@ -37,10 +38,12 @@ alignment = 1
 [node name="OkButton" type="Button" parent="MarginContainer/VBoxContainer" groups=["TextObjects"]]
 layout_mode = 2
 size_flags_horizontal = 0
+theme = ExtResource("2_p0yal")
 text = "OK"
 
 [node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer" groups=["TextObjects"]]
 layout_mode = 2
+theme = ExtResource("2_p0yal")
 text = "Cancel"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

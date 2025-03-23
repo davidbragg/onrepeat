@@ -13,6 +13,9 @@ config_version=5
 config/name="onrepeat"
 run/main_scene="uid://o0rqyht7l6q0"
 config/features=PackedStringArray("4.4", "Mobile")
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 config/icon="uid://dhc8v14v35kwi"
 
 [autoload]
