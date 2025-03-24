@@ -43,7 +43,7 @@ func new_habit(habit: String) -> void:
 		populate_habit(new_id)
 
 	new_button_check()
-	# apply_theme()
+	apply_theme()
 
 func disable_habit(row: Object) -> void:
 	hide_pop_up($RemoveHabitPopUp)
@@ -58,9 +58,10 @@ func disable_habit(row: Object) -> void:
 	Globals.all_habits_data["active"].erase(habit_id)
 	DataManager.save_all_habits()
 	habit_rows[index].queue_free()
+	habit_rows.remove_at(index)
 
 	new_button_check()
-	# apply_theme()
+	apply_theme()
 
 func delete_habit(row: Object) -> void:
 	hide_pop_up($RemoveHabitPopUp)
@@ -68,13 +69,11 @@ func delete_habit(row: Object) -> void:
 	var index = habit_rows.find(row)
 	var hbox = habit_rows[index].get_child(0)
 	var habit_id = hbox._habit_data["id"]
-	Globals.all_habits_data["active"].erase(habit_id)
-	DataManager.save_all_habits()
 	DataManager.delete_habit_data(habit_id)
 	habit_rows[index].queue_free()
 	habit_rows.remove_at(index)
 	new_button_check()
-	# apply_theme()
+	apply_theme()
 
 
 # Populate UI
@@ -84,7 +83,6 @@ func populate_habit(habit_id: String) -> void:
 	var row_rect = ColorRect.new()
 	habit_rows.push_back(row_rect)
 
-	# to be superseded by apply_theme()
 	if double_row:
 		row_rect.add_to_group("EvenRow")
 	else:
@@ -99,7 +97,6 @@ func populate_habit(habit_id: String) -> void:
 	%HabitsHBox.add_child(row_rect)
 	apply_font()
 
-	# apply_theme()
 
 func populate_header() -> void:
 	var header_rect = ColorRect.new()
@@ -140,16 +137,16 @@ func apply_theme() -> void:
 	var header_label = header[0].get_children()[0].get_children()[0]
 	header_label.add_theme_color_override("font_color", Globals.header_text)
 
-	for n in habit_rows:
-		if n.is_in_group("OddRow"):
-			n.color = Globals.odd_row_color
-			var habit_label = n.get_children()[0].get_children()[0]
-			habit_label.add_theme_color_override("font_color", Globals.odd_row_text)
-		else:
-			n.color = Globals.even_row_color
-			var habit_label = n.get_children()[0].get_children()[0]
+	for i in len(habit_rows):
+		var h_row = habit_rows[i]
+		if i % 2 == 0:
+			h_row.color = Globals.even_row_color
+			var habit_label = h_row.get_children()[0].get_children()[0]
 			habit_label.add_theme_color_override("font_color", Globals.even_row_text)
-
+		else:
+			h_row.color = Globals.odd_row_color
+			var habit_label = h_row.get_children()[0].get_children()[0]
+			habit_label.add_theme_color_override("font_color", Globals.odd_row_text)
 
 
 func pop_rename_habit(title: String, parent: Object) -> void:

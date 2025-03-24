@@ -41,10 +41,10 @@ var kiwi = Color.hex(0x97e023ff)
 var background_color: Color = almost_black
 var header_color: Color = greyish_brown
 var header_text: Color = darkish_pink
-var odd_row_color: Color = greyish
-var odd_row_text: Color = twilight
-var even_row_color: Color = greyish_brown
-var even_row_text: Color = egg_shell
+var odd_row_color: Color = greyish_brown
+var odd_row_text: Color = egg_shell
+var even_row_color: Color = greyish
+var even_row_text: Color = twilight
 
 
 func _init() -> void:
@@ -64,3 +64,9 @@ func _init() -> void:
 	end_of_month = (Time.get_date_dict_from_unix_time(eom_unix))["day"]
 
 	header_date = str(month_name[today["month"]], " ", today["year"])
+
+	# point user_dir at res for debug build testing
+	if OS.is_debug_build():
+		var dir = DirAccess.open("res://")
+		dir.make_dir("test-data")
+		user_dir = "res://test-data/"
