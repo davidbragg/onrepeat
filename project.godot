@@ -33,6 +33,10 @@ gdscript/warnings/unused_signal=0
 window/size/viewport_height=200
 window/size/resizable=false
 
+[dotnet]
+
+project/assembly_name="onrepeat"
+
 [global_group]
 
 TextObjects=""

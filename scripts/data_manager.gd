@@ -14,7 +14,7 @@ func load_habit_data(file_id: String) -> Dictionary:
 	return habit_data
 
 
-func new_habit_data(file_id: String, habit_title: String) -> void:
+func new_habit_data(file_id: String, habit_title: String) -> Dictionary:
 	var save_data: Dictionary = {
 		"title": habit_title,
 		"id": file_id,
@@ -23,6 +23,7 @@ func new_habit_data(file_id: String, habit_title: String) -> void:
 	save_habit_data(save_data)
 	Globals.all_habits_data["active"].push_back(file_id)
 	save_all_habits()
+	return save_data
 
 
 func save_habit_data(habit_data: Dictionary) -> void:

@@ -6,7 +6,6 @@ var _current_day: int
 var _year_string: String
 var _month_string: String
 
-var habit_label: HabitLabel
 var checkboxes: Array[HabitCheckBox]
 var cbox_min_size: Vector2 = Vector2(25, 20)
 
@@ -17,12 +16,14 @@ func _init(habit_data: Dictionary) -> void:
 	_month_string = str(Globals.today["month"])
 
 func _ready() -> void:
-	SignalBus.box_toggle.connect(get_checks)
+	SignalBus.check_box_toggle.connect(get_checks)
 
-func populate_habit() -> void:
-	habit_label = HabitLabel.new(_habit_data["title"])
-	habit_label.populate()
+func populate_habit() -> Dictionary:
+	var row_nodes: Dictionary
+
+	var habit_label = HabitLabel.new(_habit_data["title"])
 	add_child(habit_label)
+	row_nodes["label"] = habit_label
 
 	# create new if missing habit data for the current month
 	if !_habit_data[_year_string].has(_month_string):
@@ -40,14 +41,13 @@ func populate_habit() -> void:
 			checkboxes[i].disabled = true
 		add_child(checkboxes[i])
 
-func update_habit_title(title: String) -> void:
-	_habit_data["title"] = title
-	habit_label.text = title
-	DataManager.save_habit_data(_habit_data)
+	row_nodes["checkboxes"] = checkboxes
 
-func populate_header() -> void:
-	habit_label = HabitLabel.new(_habit_data["title"])
-	habit_label.populate()
+	return row_nodes
+
+
+func populate_header() -> HabitLabel:
+	var habit_label = HabitLabel.new(_habit_data["title"])
 	add_child(habit_label)
 
 	for i in Globals.end_of_month:
@@ -56,6 +56,8 @@ func populate_header() -> void:
 		if i  == _current_day - 1:
 			day_label.add_theme_color_override("font_color", Globals.header_text)
 		add_child(day_label)
+
+	return habit_label
 
 # Convert checked boxes to an array of true/false bits and save
 func get_checks(parent):

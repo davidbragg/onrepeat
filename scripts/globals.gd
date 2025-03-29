@@ -19,6 +19,12 @@ var month_name: Dictionary = {
 	12: "dec"
 }
 
+enum popups {
+	NEW,
+	RENAME,
+	MANAGE
+}
+
 # Resources
 var font: Resource = load("res://assets/Stacked pixel.ttf")
 var font_size: int = 20

@@ -5,10 +5,10 @@ var _parent: Object
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_key_pressed(KEY_ESCAPE):
-		SignalBus.rename_habit.emit("", _parent)
+		SignalBus.hide_pop_up.emit(self)
 
 func _on_cancel_button_pressed() -> void:
-	SignalBus.rename_habit.emit("", _parent)
+	SignalBus.hide_pop_up.emit(self)
 
 func _on_ok_button_pressed() -> void:
 	submit_habit()
