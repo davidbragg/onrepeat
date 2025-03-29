@@ -13,6 +13,7 @@ Currently limited to six habits. After that, the `new` button is disabled and hi
 ### Planned
 
 * default theme
+* update to next month at midnight, if active
 
 ### Future Considerations
 
@@ -21,3 +22,4 @@ Currently limited to six habits. After that, the `new` button is disabled and hi
 * view previous months
 * restore a disabled habit
 * custom theming
+* view single habit full history
