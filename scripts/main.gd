@@ -23,23 +23,18 @@ func _ready() -> void:
 
 
 # Manage Habits
-func rename_habit(_title: String, _parent: ColorRect) -> void:
-	hide_pop_up($RenameHabitPopUp)
-
 func new_habit(habit: String) -> void:
 	hide_pop_up($NewHabitPopUp)
 
 	if habit != "":
 		var new_id = uuid_util.v4()
 		var habit_data = DataManager.new_habit_data(new_id, habit)
-		# TODO: Confirm population works on new habit
 		populate_row(habit_data)
-		# var habit_row = HabitRow.new(habit_data)
-		# habit_row.populate_habit()
-		# habit_rows.push_back(habit_row)
-		# %HabitsHBox.add_child(habit_row)
 
 	refresh_ui()
+
+func rename_habit(_title: String, _parent: ColorRect) -> void:
+	hide_pop_up($RenameHabitPopUp)
 
 func disable_habit(row: HabitRow) -> void:
 	hide_pop_up($RemoveHabitPopUp)
